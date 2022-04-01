@@ -1,0 +1,42 @@
+{
+  "name": "@stdlib/stats-base-dists-lognormal-cdf",
+  "version": "0.0.0",
+  "description": "Lognormal distribution cumulative distribution function (CDF).",
+  "license": "Apache-2.0",
+  "main": "./bundle.js",
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/stats-base-dists-lognormal-cdf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "keywords": [
+    "stdlib",
+    "stdmath",
+    "statistics",
+    "stats",
+    "distribution",
+    "dist",
+    "probability",
+    "cdf",
+    "cumulative distribution",
+    "distribution function",
+    "exponential family",
+    "gaussian",
+    "normal",
+    "lognormal",
+    "logarithm",
+    "log",
+    "ln",
+    "natural",
+    "normal distribution",
+    "univariate",
+    "continuous"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}
