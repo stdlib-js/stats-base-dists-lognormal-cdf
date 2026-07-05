@@ -1,7 +1,7 @@
 /**
 * @license Apache-2.0
 *
-* Copyright (c) 2018 The Stdlib Authors.
+* Copyright (c) 2026 The Stdlib Authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,12 +20,21 @@
 
 // MODULES //
 
+var resolve = require( 'path' ).resolve;
 var tape = require( 'tape' );
+var tryRequire = require( '@stdlib/utils-try-require' );
 var isnan = require( '@stdlib/math-base-assert-is-nan' );
 var isAlmostSameValue = require( '@stdlib/assert-is-almost-same-value' );
 var PINF = require( '@stdlib/constants-float64-pinf' );
 var NINF = require( '@stdlib/constants-float64-ninf' );
-var factory = require( './../lib/factory.js' );
+
+
+// VARIABLES //
+
+var cdf = tryRequire( resolve( __dirname, './../lib/native.js' ) );
+var opts = {
+	'skip': ( cdf instanceof Error )
+};
 
 
 // FIXTURES //
@@ -37,102 +46,64 @@ var largeVariance = require( './fixtures/julia/large_variance.json' );
 
 // TESTS //
 
-tape( 'main export is a function', function test( t ) {
+tape( 'main export is a function', opts, function test( t ) {
 	t.ok( true, __filename );
-	t.strictEqual( typeof factory, 'function', 'main export is a function' );
+	t.strictEqual( typeof cdf, 'function', 'main export is a function' );
 	t.end();
 });
 
-tape( 'the function returns a function', function test( t ) {
-	var cdf = factory( 0.0, 1.0 );
-	t.strictEqual( typeof cdf, 'function', 'returns expected value' );
+tape( 'if provided `NaN` for any parameter, the function returns `NaN`', opts, function test( t ) {
+	var y = cdf( NaN, 0.0, 1.0 );
+	t.strictEqual( isnan( y ), true, 'returns expected value' );
+	y = cdf( 0.0, NaN, 1.0 );
+	t.strictEqual( isnan( y ), true, 'returns expected value' );
+	y = cdf( 0.0, 1.0, NaN );
+	t.strictEqual( isnan( y ), true, 'returns expected value' );
 	t.end();
 });
 
-tape( 'if provided `NaN` for any parameter, the created function returns `NaN`', function test( t ) {
-	var cdf;
-	var y;
-
-	cdf = factory( 0.0, 1.0 );
-	y = cdf( NaN );
-	t.strictEqual( isnan( y ), true, 'returns expected value' );
-
-	cdf = factory( NaN, 1.0 );
-	y = cdf( 0.0 );
-	t.strictEqual( isnan( y ), true, 'returns expected value' );
-
-	cdf = factory( 1.0, NaN );
-	y = cdf( 0.0 );
-	t.strictEqual( isnan( y ), true, 'returns expected value' );
-
-	cdf = factory( NaN, NaN );
-	y = cdf( 0.0 );
-	t.strictEqual( isnan( y ), true, 'returns expected value' );
-
-	cdf = factory( NaN, NaN );
-	y = cdf( NaN );
-	t.strictEqual( isnan( y ), true, 'returns expected value' );
-
-	t.end();
-});
-
-tape( 'if provided a finite `mu` and `sigma`, the function returns a function which returns `1` when provided `+infinity` for `x`', function test( t ) {
-	var cdf;
-	var y;
-
-	cdf = factory( 0.0, 1.0 );
-	y = cdf( PINF );
+tape( 'if provided `+infinity` for `x` and a finite `mu` and `sigma`, the function returns `1`', opts, function test( t ) {
+	var y = cdf( PINF, 0.0, 1.0 );
 	t.strictEqual( y, 1.0, 'returns expected value' );
-
 	t.end();
 });
 
-tape( 'if provided a finite `mu` and `sigma`, the function returns a function which returns `0` when provided `-infinity` for `x`', function test( t ) {
-	var cdf;
-	var y;
-
-	cdf = factory( 0.0, 1.0 );
-	y = cdf( NINF );
+tape( 'if provided `-infinity` for `x` and a finite `mu` and `sigma`, the function returns `0`', opts, function test( t ) {
+	var y = cdf( NINF, 0.0, 1.0 );
 	t.strictEqual( y, 0.0, 'returns expected value' );
-
 	t.end();
 });
 
-tape( 'if provided a negative `sigma`, the created function always returns `NaN`', function test( t ) {
-	var cdf;
+tape( 'if provided a nonpositive `sigma`, the function returns `NaN`', opts, function test( t ) {
 	var y;
 
-	cdf = factory( 0.0, -1.0 );
-
-	y = cdf( 2.0 );
+	y = cdf( 2.0, 2.0, 0.0 );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
-	y = cdf( 0.0 );
+	y = cdf( 2.0, 2.0, -1.0 );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
-	cdf = factory( 0.0, NINF );
-	y = cdf( 2.0 );
+	y = cdf( 0.0, 2.0, -1.0 );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
-	cdf = factory( PINF, NINF );
-	y = cdf( 2.0 );
+	y = cdf( 2.0, 1.0, NINF );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
-	cdf = factory( NINF, NINF );
-	y = cdf( 2.0 );
+	y = cdf( 2.0, PINF, NINF );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
-	cdf = factory( NaN, NINF );
-	y = cdf( 2.0 );
+	y = cdf( 2.0, NINF, NINF );
+	t.strictEqual( isnan( y ), true, 'returns expected value' );
+
+	y = cdf( 2.0, NaN, NINF );
 	t.strictEqual( isnan( y ), true, 'returns expected value' );
 
 	t.end();
 });
 
-tape( 'the created function evaluates the cdf for `x` given positive `mu`', function test( t ) {
+tape( 'the function evaluates the cdf for `x` given positive `mu`', opts, function test( t ) {
 	var expected;
 	var sigma;
-	var cdf;
 	var mu;
 	var x;
 	var y;
@@ -143,8 +114,7 @@ tape( 'the created function evaluates the cdf for `x` given positive `mu`', func
 	mu = positiveMean.mu;
 	sigma = positiveMean.sigma;
 	for ( i = 0; i < x.length; i++ ) {
-		cdf = factory( mu[i], sigma[i] );
-		y = cdf( x[i] );
+		y = cdf( x[i], mu[i], sigma[i] );
 		if ( y === expected[i] ) {
 			t.strictEqual( y, expected[i], 'x: '+x[i]+', mu:'+mu[i]+', sigma: '+sigma[i]+', y: '+y+', expected: '+expected[i] );
 		} else {
@@ -154,10 +124,9 @@ tape( 'the created function evaluates the cdf for `x` given positive `mu`', func
 	t.end();
 });
 
-tape( 'the created function evaluates the cdf for `x` given negative `mu`', function test( t ) {
+tape( 'the function evaluates the cdf for `x` given negative `mu`', opts, function test( t ) {
 	var expected;
 	var sigma;
-	var cdf;
 	var mu;
 	var x;
 	var y;
@@ -168,21 +137,19 @@ tape( 'the created function evaluates the cdf for `x` given negative `mu`', func
 	mu = negativeMean.mu;
 	sigma = negativeMean.sigma;
 	for ( i = 0; i < x.length; i++ ) {
-		cdf = factory( mu[i], sigma[i] );
-		y = cdf( x[i] );
+		y = cdf( x[i], mu[i], sigma[i] );
 		if ( y === expected[i] ) {
 			t.strictEqual( y, expected[i], 'x: '+x[i]+', mu:'+mu[i]+', sigma: '+sigma[i]+', y: '+y+', expected: '+expected[i] );
 		} else {
-			t.ok( isAlmostSameValue( y, expected[i], 900 ), 'within tolerance. x: '+x[ i ]+'. mu: '+mu[i]+'. sigma: '+sigma[i]+'. y: '+y+'. E: '+expected[ i ]+'.' );
+			t.ok( isAlmostSameValue( y, expected[i], 1200 ), 'within tolerance. x: '+x[ i ]+'. mu: '+mu[i]+'. sigma: '+sigma[i]+'. y: '+y+'. E: '+expected[ i ]+'.' );
 		}
 	}
 	t.end();
 });
 
-tape( 'the created function evaluates the cdf for `x` given large variance ( = large `sigma`)', function test( t ) {
+tape( 'the function evaluates the cdf for `x` given large variance ( = large `sigma` )', opts, function test( t ) {
 	var expected;
 	var sigma;
-	var cdf;
 	var mu;
 	var x;
 	var y;
@@ -193,8 +160,7 @@ tape( 'the created function evaluates the cdf for `x` given large variance ( = l
 	mu = largeVariance.mu;
 	sigma = largeVariance.sigma;
 	for ( i = 0; i < x.length; i++ ) {
-		cdf = factory( mu[i], sigma[i] );
-		y = cdf( x[i] );
+		y = cdf( x[i], mu[i], sigma[i] );
 		if ( y === expected[i] ) {
 			t.strictEqual( y, expected[i], 'x: '+x[i]+', mu:'+mu[i]+', sigma: '+sigma[i]+', y: '+y+', expected: '+expected[i] );
 		} else {

@@ -4,7 +4,29 @@
 
 <section class="release" id="unreleased">
 
-## Unreleased (2026-06-10)
+## Unreleased (2026-07-05)
+
+<section class="features">
+
+### Features
+
+-   [`c2fcbc0`](https://github.com/stdlib-js/stdlib/commit/c2fcbc0e51871744c2c42464051f45c030fdc936) - add C implementation for `stats/base/dists/lognormal/cdf` [(#10809)](https://github.com/stdlib-js/stdlib/pull/10809)
+
+</section>
+
+<!-- /.features -->
+
+<section class="issues">
+
+### Closed Issues
+
+This release closes the following issue:
+
+[#3747](https://github.com/stdlib-js/stdlib/issues/3747)
+
+</section>
+
+<!-- /.issues -->
 
 <section class="commits">
 
@@ -12,6 +34,7 @@
 
 <details>
 
+-   [`c2fcbc0`](https://github.com/stdlib-js/stdlib/commit/c2fcbc0e51871744c2c42464051f45c030fdc936) - **feat:** add C implementation for `stats/base/dists/lognormal/cdf` [(#10809)](https://github.com/stdlib-js/stdlib/pull/10809) _(by Bhargav Dabhade, Neeraj Pathak)_
 -   [`81c4786`](https://github.com/stdlib-js/stdlib/commit/81c478690aac530a21505bae986e75ba5689aaf4) - **docs:** add negative-scale `@example` to `stats/base/dists/lognormal/cdf` [(#12093)](https://github.com/stdlib-js/stdlib/pull/12093) _(by Philipp Burckhardt)_
 -   [`797d3a0`](https://github.com/stdlib-js/stdlib/commit/797d3a0bbe3f062d53e7ff8b7919e54a0e6c0d00) - **bench:** refactor to use string interpolation in `stats/base/dists/lognormal` [(#10445)](https://github.com/stdlib-js/stdlib/pull/10445) _(by Vishal Gaikwad)_
 
@@ -25,8 +48,10 @@
 
 ### Contributors
 
-A total of 2 people contributed to this release. Thank you to the following contributors:
+A total of 4 people contributed to this release. Thank you to the following contributors:
 
+-   Bhargav Dabhade
+-   Neeraj Pathak
 -   Philipp Burckhardt
 -   Vishal Gaikwad
 
