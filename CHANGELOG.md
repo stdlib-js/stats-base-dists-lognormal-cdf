@@ -4,7 +4,7 @@
 
 <section class="release" id="unreleased">
 
-## Unreleased (2026-07-05)
+## Unreleased (2026-07-27)
 
 <section class="features">
 
@@ -34,6 +34,9 @@ This release closes the following issue:
 
 <details>
 
+-   [`f25221d`](https://github.com/stdlib-js/stdlib/commit/f25221d5fcb5e84cb0ad4951db6f08f254c12d15) - **docs:** update Markdown equation elements _(by stdlib-bot)_
+-   [`2cee50a`](https://github.com/stdlib-js/stdlib/commit/2cee50a75da1437551b91682b8785dbae8ab897f) - **docs:** update Markdown equation elements [(#13547)](https://github.com/stdlib-js/stdlib/pull/13547) _(by stdlib-bot, Athan Reines)_
+-   [`36ee366`](https://github.com/stdlib-js/stdlib/commit/36ee366130c07464017ccf0b49b9645a8f644a5f) - **chore:** clean-up [(#13539)](https://github.com/stdlib-js/stdlib/pull/13539) _(by Philipp Burckhardt)_
 -   [`c2fcbc0`](https://github.com/stdlib-js/stdlib/commit/c2fcbc0e51871744c2c42464051f45c030fdc936) - **feat:** add C implementation for `stats/base/dists/lognormal/cdf` [(#10809)](https://github.com/stdlib-js/stdlib/pull/10809) _(by Bhargav Dabhade, Neeraj Pathak)_
 -   [`81c4786`](https://github.com/stdlib-js/stdlib/commit/81c478690aac530a21505bae986e75ba5689aaf4) - **docs:** add negative-scale `@example` to `stats/base/dists/lognormal/cdf` [(#12093)](https://github.com/stdlib-js/stdlib/pull/12093) _(by Philipp Burckhardt)_
 -   [`797d3a0`](https://github.com/stdlib-js/stdlib/commit/797d3a0bbe3f062d53e7ff8b7919e54a0e6c0d00) - **bench:** refactor to use string interpolation in `stats/base/dists/lognormal` [(#10445)](https://github.com/stdlib-js/stdlib/pull/10445) _(by Vishal Gaikwad)_
@@ -48,8 +51,9 @@ This release closes the following issue:
 
 ### Contributors
 
-A total of 4 people contributed to this release. Thank you to the following contributors:
+A total of 5 people contributed to this release. Thank you to the following contributors:
 
+-   Athan Reines
 -   Bhargav Dabhade
 -   Neeraj Pathak
 -   Philipp Burckhardt
